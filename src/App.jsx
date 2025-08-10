@@ -370,7 +370,7 @@ function Footer() {
         </div>
         <div>
           <div>Serving {CONFIG.serviceArea}</div>
-          <div>Licensed & Insured</div>
+          
         </div>
         <div>
           <a href={`tel:${CONFIG.phoneNickE164}`} style={styles.secondaryBtn}>Call</a>{" "}
