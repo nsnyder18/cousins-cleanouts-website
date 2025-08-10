@@ -119,9 +119,9 @@ function Hero() {
               <a href="#contact" style={styles.secondaryBtn}>Get a Free Quote</a>
             </div>
             <div style={styles.heroMetaRow}>
-              <span>Licensed & Insured</span>
               <span>Same/Next-Day</span>
               <span>Local Family Business</span>
+              
             </div>
           </div>
 
