@@ -12,7 +12,7 @@ const CONFIG = {
   facebookUrl: "https://www.facebook.com/profile.php?id=61578240786797",
   heroBg:
     "https://images.unsplash.com/photo-1565610314838-9f0efc9e6e4a?q=80&w=1600&auto=format&fit=crop",
-  logo: "/logo.png", // place logo.png in /public
+  logo: "/logo.png",
   brand: {
     primary: "#C25A2B",
     dark: "#0B0F19",
@@ -29,6 +29,7 @@ export default function App() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
 
+  // Compose mailto: link for form submission
   const mailtoHref = useMemo(() => {
     const subject = encodeURIComponent(`${CONFIG.businessName} – Quote Request`);
     const body = encodeURIComponent(
@@ -63,6 +64,7 @@ export default function App() {
   );
 }
 
+// Header with logo, navigation links, and call button (Nick)
 function Header() {
   return (
     <header style={styles.headerWrapper}>
@@ -71,12 +73,14 @@ function Header() {
           <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 40 }} />
           <div>
             <div style={styles.brandName}>{CONFIG.businessName}</div>
-            <div style={styles.brandTag}>Junk Removal • Dump Trailer Rental</div>
+            <div style={styles.brandTag}>
+              Junk Removal • Dump Trailer Rental
+            </div>
           </div>
         </a>
         <nav style={styles.nav}>
           <a style={styles.navLink} href="#services">Services</a>
-          <a style={styles.navLink} href="#rental">Trailer Rental</a>
+          <a style={styles.navLink} href="#rental">Trailer Rental</a>
           <a style={styles.navLink} href="#pricing">Pricing</a>
           <a style={styles.navLink} href="#photos">Photos</a>
           <a style={styles.navLink} href="#contact">Contact</a>
@@ -103,11 +107,12 @@ function Hero() {
           <div>
             <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 120 }} />
             <h1 style={styles.h1}>
-              Fast, Friendly <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
+              Fast, Friendly{" "}
+              <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
             </h1>
             <p style={styles.heroP}>
-              Storm cleanup, full-service junk removal, and affordable dump trailer
-              rentals. Serving {CONFIG.serviceArea}.
+              Storm cleanup, full-service junk removal, and affordable dump trailer rentals.
+              Serving {CONFIG.serviceArea}.
             </p>
             <div style={styles.rowGap}>
               <a href="#rental" style={styles.primaryBtn}>Book a Trailer</a>
@@ -124,8 +129,9 @@ function Hero() {
           <div style={styles.ctaCard}>
             <div style={styles.ctaCardHeader}>Need it gone today?</div>
             <div style={styles.ctaCardBody}>
+              {/* Note the text “Text Us a Photo” here */}
               <a href={`sms:${smsTargets}`} style={styles.primaryBtnFull}>
-                Text a Photo
+                Text Us a Photo
               </a>
               <div style={styles.smallMuted}>
                 Or call <a href={`tel:${CONFIG.phoneNickE164}`}>{CONFIG.phoneNickDisplay}</a>
@@ -148,8 +154,7 @@ function Services() {
           We lift, load, haul, and dispose responsibly.
         </Card>
         <Card title="Dump Trailer Rental">
-          Need a trailer on-site? We drop it off, you fill it, we haul it away.
-          Perfect for DIY cleanups and remodels.
+          Need a trailer on-site? We drop it off, you fill it, we haul it away. Perfect for DIY cleanups and remodels.
         </Card>
         <Card title="U-Fill, We Haul">
           Budget-friendly option: you stage items, we load quickly and go.
@@ -172,7 +177,7 @@ function Rental() {
             <ul style={styles.ul}>
               <li>Day rate + dump fees (priced by weight)</li>
               <li>Includes drop-off & pick-up in local area</li>
-              <li>Typical capacity: 12–14 yards (update if different)</li>
+              <li>Typical capacity: 12–14 yards (update if different)</li>
             </ul>
           </Card>
           <Card title="Reserve Your Date" accent>
@@ -412,7 +417,7 @@ function SiteStyles() {
   );
 }
 
-/* Style definitions replicating original layout */
+/* Styles replicating original layout */
 const styles = {
   page: { minHeight: "100%", display: "flex", flexDirection: "column" },
   container: { maxWidth: 1120, margin: "0 auto", padding: "0 16px" },
@@ -491,7 +496,12 @@ const styles = {
     fontSize: 18,
     marginTop: 12,
   },
-  rowGap: { display: "flex", gap: 12, marginTop: 20, flexWrap: "wrap" },
+  rowGap: {
+    display: "flex",
+    gap: 12,
+    marginTop: 20,
+    flexWrap: "wrap",
+  },
   primaryBtn: {
     display: "inline-block",
     padding: "12px 18px",
