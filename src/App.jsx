@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 
+/* Configuration */
 const CONFIG = {
   businessName: "Cousins Cleanouts",
   phoneNickDisplay: "715-304-7663",
@@ -11,14 +12,16 @@ const CONFIG = {
   facebookUrl: "https://www.facebook.com/profile.php?id=61578240786797",
   heroBg:
     "https://images.unsplash.com/photo-1565610314838-9f0efc9e6e4a?q=80&w=1600&auto=format&fit=crop",
-  logo: "/logo.png",
+  logo: "/logo.png", // place logo.png in /public
   brand: {
-    primary: "#C25A2B", // orange from your logo
+    primary: "#C25A2B",
     dark: "#0B0F19",
   },
-  // Leave gallery empty for now – add paths to images here later
-  gallery: [],
+  gallery: [], // leave empty to remove photos
 };
+
+// Combine both numbers for group SMS links
+const smsTargets = `${CONFIG.phoneNickE164},${CONFIG.phoneShaneE164}`;
 
 export default function App() {
   const [name, setName] = useState("");
@@ -26,7 +29,6 @@ export default function App() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
 
-  // Compose mailto: link for form submission
   const mailtoHref = useMemo(() => {
     const subject = encodeURIComponent(`${CONFIG.businessName} – Quote Request`);
     const body = encodeURIComponent(
@@ -61,7 +63,6 @@ export default function App() {
   );
 }
 
-// Header with logo, navigation links, and call button (Nick)
 function Header() {
   return (
     <header style={styles.headerWrapper}>
@@ -73,7 +74,6 @@ function Header() {
             <div style={styles.brandTag}>Junk Removal • Dump Trailer Rental</div>
           </div>
         </a>
-        {/* Navigation links restored */}
         <nav style={styles.nav}>
           <a style={styles.navLink} href="#services">Services</a>
           <a style={styles.navLink} href="#rental">Trailer Rental</a>
@@ -81,7 +81,6 @@ function Header() {
           <a style={styles.navLink} href="#photos">Photos</a>
           <a style={styles.navLink} href="#contact">Contact</a>
         </nav>
-        {/* Call Now button uses Nick’s number */}
         <a
           href={`tel:${CONFIG.phoneNickE164}`}
           style={styles.callBtn}
@@ -104,8 +103,7 @@ function Hero() {
           <div>
             <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 120 }} />
             <h1 style={styles.h1}>
-              Fast, Friendly{" "}
-              <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
+              Fast, Friendly <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
             </h1>
             <p style={styles.heroP}>
               Storm cleanup, full-service junk removal, and affordable dump trailer
@@ -122,11 +120,11 @@ function Hero() {
             </div>
           </div>
 
-          {/* CTA card unchanged */}
+          {/* CTA card – sends SMS to both numbers */}
           <div style={styles.ctaCard}>
             <div style={styles.ctaCardHeader}>Need it gone today?</div>
             <div style={styles.ctaCardBody}>
-              <a href={`sms:${CONFIG.phoneNickE164}`} style={styles.primaryBtnFull}>
+              <a href={`sms:${smsTargets}`} style={styles.primaryBtnFull}>
                 Text a Photo
               </a>
               <div style={styles.smallMuted}>
@@ -146,13 +144,16 @@ function Services() {
       <h2 style={styles.h2}>What We Do</h2>
       <div style={styles.cards3}>
         <Card title="Junk Removal">
-          Full-service cleanouts for garages, basements, estates, renovations, and more. We lift, load, haul, and dispose responsibly.
+          Full-service cleanouts for garages, basements, estates, renovations, and more.
+          We lift, load, haul, and dispose responsibly.
         </Card>
         <Card title="Dump Trailer Rental">
-          Need a trailer on-site? We drop it off, you fill it, we haul it away. Perfect for DIY cleanups and remodels.
+          Need a trailer on-site? We drop it off, you fill it, we haul it away.
+          Perfect for DIY cleanups and remodels.
         </Card>
         <Card title="U-Fill, We Haul">
-          Budget-friendly option: you stage items, we load quickly and go. Ask about storm cleanup specials.
+          Budget-friendly option: you stage items, we load quickly and go.
+          Ask about storm cleanup specials.
         </Card>
       </div>
     </section>
@@ -189,18 +190,18 @@ function Pricing() {
       <h2 style={styles.h2}>Typical Pricing</h2>
       <div style={styles.cards4}>
         <Card title="Single Item Pickups">
-          <div style={styles.price}>Min $80</div>
+          <div style={styles.price}>Min $80</div>
           Curbside discounts available. Mattresses, couches, appliances.
         </Card>
         <Card title="Appliance Pickups">
-          <div style={styles.price}>$50 each</div>
+          <div style={styles.price}>$50 each</div>
           Refrigerators, washers, dryers, etc.
         </Card>
-        <Card title="Half Load (6–7 yds)">
+        <Card title="Half Load (6–7 yds)">
           <div style={styles.price}>$250–$350</div>
           Great for garage cleanouts & small remodels.
         </Card>
-        <Card title="Full Load (12–14 yds)" accent>
+        <Card title="Full Load (12–14 yds)" accent>
           <div style={styles.price}>$400–$600</div>
           Includes labor, hauling, and disposal (weight limits apply).
         </Card>
@@ -212,7 +213,6 @@ function Pricing() {
   );
 }
 
-// Updated Photos section: shows a message if no photos are listed
 function Photos() {
   return (
     <section id="photos" style={styles.sectionAlt}>
@@ -314,12 +314,13 @@ function Contact({
               >
                 Send
               </button>
-              <a href={`sms:${CONFIG.phoneNickE164}`} style={styles.secondaryBtn}>
+              {/* “Text Us” sends SMS to both numbers */}
+              <a href={`sms:${smsTargets}`} style={styles.secondaryBtn}>
                 Text Us
               </a>
             </div>
             <div style={styles.smallMuted}>
-              Attaching photos? Use the Text Us button for the fastest quote.
+              Attaching photos? Use the Text Us button for the fastest quote.
             </div>
           </form>
         </div>
@@ -411,7 +412,7 @@ function SiteStyles() {
   );
 }
 
-// Styles object replicating original layout
+/* Style definitions replicating original layout */
 const styles = {
   page: { minHeight: "100%", display: "flex", flexDirection: "column" },
   container: { maxWidth: 1120, margin: "0 auto", padding: "0 16px" },
@@ -478,8 +479,18 @@ const styles = {
     backgroundPosition: "center",
   },
   heroOverlay: { background: "rgba(0,0,0,.6)", padding: "80px 0" },
-  h1: { color: "#fff", fontWeight: 900, fontSize: 44, lineHeight: 1.1, margin: 0 },
-  heroP: { color: "#e5e7eb", fontSize: 18, marginTop: 12 },
+  h1: {
+    color: "#fff",
+    fontWeight: 900,
+    fontSize: 44,
+    lineHeight: 1.1,
+    margin: 0,
+  },
+  heroP: {
+    color: "#e5e7eb",
+    fontSize: 18,
+    marginTop: 12,
+  },
   rowGap: { display: "flex", gap: 12, marginTop: 20, flexWrap: "wrap" },
   primaryBtn: {
     display: "inline-block",
