@@ -13,14 +13,11 @@ const CONFIG = {
     "https://images.unsplash.com/photo-1565610314838-9f0efc9e6e4a?q=80&w=1600&auto=format&fit=crop",
   logo: "/logo.png",
   brand: {
-    primary: "#C25A2B",
+    primary: "#C25A2B", // orange from your logo
     dark: "#0B0F19",
   },
-  gallery: [
-    "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1200&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1603048297172-c92544798e9e?q=80&w=1200&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format&fit=crop",
-  ],
+  // Leave gallery empty for now – add paths to images here later
+  gallery: [],
 };
 
 export default function App() {
@@ -64,7 +61,7 @@ export default function App() {
   );
 }
 
-// Header with logo and call button (Nick)
+// Header with logo, navigation links, and call button (Nick)
 function Header() {
   return (
     <header style={styles.headerWrapper}>
@@ -76,9 +73,18 @@ function Header() {
             <div style={styles.brandTag}>Junk Removal • Dump Trailer Rental</div>
           </div>
         </a>
+        {/* Navigation links restored */}
+        <nav style={styles.nav}>
+          <a style={styles.navLink} href="#services">Services</a>
+          <a style={styles.navLink} href="#rental">Trailer Rental</a>
+          <a style={styles.navLink} href="#pricing">Pricing</a>
+          <a style={styles.navLink} href="#photos">Photos</a>
+          <a style={styles.navLink} href="#contact">Contact</a>
+        </nav>
+        {/* Call Now button uses Nick’s number */}
         <a
           href={`tel:${CONFIG.phoneNickE164}`}
-          style={{ ...styles.primaryBtn, background: CONFIG.brand.primary }}
+          style={styles.callBtn}
         >
           Call Now
         </a>
@@ -87,7 +93,6 @@ function Header() {
   );
 }
 
-// Hero with logo, tagline, CTAs, and CTA card
 function Hero() {
   return (
     <section
@@ -99,11 +104,12 @@ function Hero() {
           <div>
             <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 120 }} />
             <h1 style={styles.h1}>
-              Fast, Friendly <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
+              Fast, Friendly{" "}
+              <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
             </h1>
             <p style={styles.heroP}>
-              Storm cleanup, full-service junk removal, and affordable dump trailer rentals.
-              Serving {CONFIG.serviceArea}.
+              Storm cleanup, full-service junk removal, and affordable dump trailer
+              rentals. Serving {CONFIG.serviceArea}.
             </p>
             <div style={styles.rowGap}>
               <a href="#rental" style={styles.primaryBtn}>Book a Trailer</a>
@@ -116,7 +122,7 @@ function Hero() {
             </div>
           </div>
 
-          {/* CTA card */}
+          {/* CTA card unchanged */}
           <div style={styles.ctaCard}>
             <div style={styles.ctaCardHeader}>Need it gone today?</div>
             <div style={styles.ctaCardBody}>
@@ -134,7 +140,6 @@ function Hero() {
   );
 }
 
-// Services section
 function Services() {
   return (
     <section id="services" style={styles.section}>
@@ -154,7 +159,6 @@ function Services() {
   );
 }
 
-// Rental section
 function Rental() {
   return (
     <section id="rental" style={styles.sectionAlt}>
@@ -179,7 +183,6 @@ function Rental() {
   );
 }
 
-// Pricing section with updated pricing and extra card
 function Pricing() {
   return (
     <section id="pricing" style={styles.section}>
@@ -209,23 +212,26 @@ function Pricing() {
   );
 }
 
-// Photos section
+// Updated Photos section: shows a message if no photos are listed
 function Photos() {
   return (
     <section id="photos" style={styles.sectionAlt}>
       <div style={styles.container}>
         <h2 style={styles.h2}>Recent Jobs</h2>
-        <div style={styles.grid3Img}>
-          {CONFIG.gallery.map((src, i) => (
-            <img key={i} src={src} alt={`Job ${i + 1}`} style={styles.galleryImg} />
-          ))}
-        </div>
+        {CONFIG.gallery.length === 0 ? (
+          <p>No photos available at the moment. Check back soon!</p>
+        ) : (
+          <div style={styles.grid3Img}>
+            {CONFIG.gallery.map((src, i) => (
+              <img key={i} src={src} alt={`Job ${i + 1}`} style={styles.galleryImg} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
 }
 
-// Reviews section
 function Reviews() {
   const reviews = [
     "On time and super friendly!",
@@ -246,7 +252,6 @@ function Reviews() {
   );
 }
 
-// Contact section with both phone numbers and updated email
 function Contact({
   name,
   setName,
@@ -344,30 +349,12 @@ function Contact({
               </div>
             </div>
           </Card>
-
-          <Card title="FAQ">
-            <div style={styles.stackGap}>
-              <div>
-                <div style={styles.bold}>What can’t you take?</div>
-                <div>We avoid hazardous chemicals, paint, oils, and certain electronics—ask and we’ll advise.</div>
-              </div>
-              <div>
-                <div style={styles.bold}>How do bookings work?</div>
-                <div>We confirm your date/time by text or call. No payment is collected on the website right now.</div>
-              </div>
-              <div>
-                <div style={styles.bold}>Do you offer same-day?</div>
-                <div>Often yes—text us early and we’ll try to squeeze you in.</div>
-              </div>
-            </div>
-          </Card>
         </div>
       </div>
     </section>
   );
 }
 
-// Footer with logo, service area, and buttons
 function Footer() {
   return (
     <footer style={styles.footer}>
@@ -391,7 +378,6 @@ function Footer() {
   );
 }
 
-// Reusable Card component
 function Card({ title, accent = false, children }) {
   return (
     <div
@@ -408,7 +394,6 @@ function Card({ title, accent = false, children }) {
   );
 }
 
-// Global CSS (like original)
 function SiteStyles() {
   return (
     <style>{`
@@ -420,15 +405,13 @@ function SiteStyles() {
       a:hover{text-decoration:underline}
       button{cursor:pointer}
       @media (max-width: 860px){
-        .grid2{grid-template-columns:1fr !important}
-        .grid3{grid-template-columns:1fr !important}
-        nav[aria-label="Primary"]{display:none}
+        nav{display:none}
       }
     `}</style>
   );
 }
 
-// Styles object replicating the original layout
+// Styles object replicating original layout
 const styles = {
   page: { minHeight: "100%", display: "flex", flexDirection: "column" },
   container: { maxWidth: 1120, margin: "0 auto", padding: "0 16px" },
@@ -473,6 +456,7 @@ const styles = {
   },
   brandName: { fontWeight: 800, fontSize: 18 },
   brandTag: { fontSize: 12, color: "#6b7280" },
+  nav: { display: "flex", alignItems: "center", gap: 8 },
   navLink: {
     padding: "8px 12px",
     borderRadius: 8,
@@ -493,28 +477,10 @@ const styles = {
     backgroundSize: "cover",
     backgroundPosition: "center",
   },
-  heroOverlay: {
-    background: "rgba(0,0,0,.6)",
-    padding: "80px 0",
-  },
-  h1: {
-    color: "#fff",
-    fontWeight: 900,
-    fontSize: 44,
-    lineHeight: 1.1,
-    margin: 0,
-  },
-  heroP: {
-    color: "#e5e7eb",
-    fontSize: 18,
-    marginTop: 12,
-  },
-  rowGap: {
-    display: "flex",
-    gap: 12,
-    marginTop: 20,
-    flexWrap: "wrap",
-  },
+  heroOverlay: { background: "rgba(0,0,0,.6)", padding: "80px 0" },
+  h1: { color: "#fff", fontWeight: 900, fontSize: 44, lineHeight: 1.1, margin: 0 },
+  heroP: { color: "#e5e7eb", fontSize: 18, marginTop: 12 },
+  rowGap: { display: "flex", gap: 12, marginTop: 20, flexWrap: "wrap" },
   primaryBtn: {
     display: "inline-block",
     padding: "12px 18px",
@@ -593,35 +559,12 @@ const styles = {
     borderRadius: 16,
     boxShadow: "0 6px 16px rgba(0,0,0,.12)",
   },
-  card: {
-    background: "#fff",
-    borderRadius: 16,
-    padding: 20,
-  },
-  cardTitle: {
-    fontWeight: 700,
-    marginBottom: 8,
-    fontSize: 18,
-  },
-  price: {
-    fontSize: 32,
-    fontWeight: 900,
-    margin: "6px 0 10px",
-  },
-  fineprint: {
-    fontSize: 12,
-    color: "#6b7280",
-    marginTop: 8,
-  },
-  lead: {
-    color: "#374151",
-    marginBottom: 16,
-  },
-  form: {
-    display: "grid",
-    gap: 10,
-    maxWidth: 640,
-  },
+  card: { background: "#fff", borderRadius: 16, padding: 20 },
+  cardTitle: { fontWeight: 700, marginBottom: 8, fontSize: 18 },
+  price: { fontSize: 32, fontWeight: 900, margin: "6px 0 10px" },
+  fineprint: { fontSize: 12, color: "#6b7280", marginTop: 8 },
+  lead: { color: "#374151", marginBottom: 16 },
+  form: { display: "grid", gap: 10, maxWidth: 640 },
   input: {
     width: "100%",
     padding: "12px 14px",
@@ -629,18 +572,9 @@ const styles = {
     border: "1px solid #e5e7eb",
     fontSize: 16,
   },
-  stackGap: {
-    display: "grid",
-    gap: 12,
-  },
-  bold: {
-    fontWeight: 700,
-  },
-  smallMuted: {
-    fontSize: 12,
-    color: "#6b7280",
-    marginTop: 6,
-  },
+  stackGap: { display: "grid", gap: 12 },
+  bold: { fontWeight: 700 },
+  smallMuted: { fontSize: 12, color: "#6b7280", marginTop: 6 },
   rowBetween: {
     display: "flex",
     alignItems: "center",
