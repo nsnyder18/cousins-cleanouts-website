@@ -1,96 +1,96 @@
-import React, { useMemo, useState } from "react";
 
-/* Configuration */
-const CONFIG = {
-  businessName: "Cousins Cleanouts",
-  phoneNickDisplay: "715-304-7663",
-  phoneNickE164: "+17153047663",
-  phoneShaneDisplay: "715-944-9389",
-  phoneShaneE164: "+17159449389",
-  email: "Sales@cousinscleanouts.com",
-  serviceArea: "Chippewa / Eau Claire Area, WI",
-  facebookUrl: "https://www.facebook.com/profile.php?id=61578240786797",
-  heroBg:
-    "https://images.unsplash.com/photo-1565610314838-9f0efc9e6e4a?q=80&w=1600&auto=format&fit=crop",
-  logo: "/logo.png",
-  brand: {
-    primary: "#C25A2B",
-    dark: "#0B0F19",
-  },
-  gallery: [], // leave empty to remove photos
-};
+import React, { useState } from "react";
 
-// Combine both numbers for group SMS links
-const smsTargets = `${CONFIG.phoneNickE164},${CONFIG.phoneShaneE164}`;
+/**
+ * Replace the entire contents of your App.jsx with this file.
+ * - Tailwind required.
+ * - Update the SECOND_NUMBER placeholder below.
+ * - Make sure your index.html has:
+ *   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+ */
 
 export default function App() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
-
-  // Compose mailto: link for form submission
-  const mailtoHref = useMemo(() => {
-    const subject = encodeURIComponent(`${CONFIG.businessName} – Quote Request`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nDetails:\n${message}`
-    );
-    return `mailto:${CONFIG.email}?subject=${subject}&body=${body}`;
-  }, [name, email, phone, message]);
-
   return (
-    <div style={styles.page}>
-      <SiteStyles />
-      <Header />
-      <Hero />
-      <Services />
-      <Rental />
-      <Pricing />
-      <Photos />
-      <Reviews />
-      <Contact
-        name={name}
-        setName={setName}
-        email={email}
-        setEmail={setEmail}
-        phone={phone}
-        setPhone={setPhone}
-        message={message}
-        setMessage={setMessage}
-        mailtoHref={mailtoHref}
-      />
+    <div className="min-h-[100svh] bg-white text-neutral-900 overflow-x-hidden">
+      <NavBar />
+      <main id="top">
+        <Hero />
+        <ServiceGrid />
+        <Pricing />
+        <Contact />
+      </main>
       <Footer />
+      <MobileStickyCTA />
     </div>
   );
 }
 
-// Header with logo, navigation links, and call button (Nick)
-function Header() {
+function NavBar() {
+  const [open, setOpen] = useState(false);
+
   return (
-    <header style={styles.headerWrapper}>
-      <div style={styles.containerRow}>
-        <a href="#top" style={styles.brandLink}>
-          <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 40 }} />
-          <div>
-            <div style={styles.brandName}>{CONFIG.businessName}</div>
-            <div style={styles.brandTag}>
-              Junk Removal • Dump Trailer Rental
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 h-16 flex items-center justify-between">
+        <a href="#top" className="text-xl font-extrabold tracking-tight">
+          Cousins Cleanouts
+        </a>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-6">
+          <a href="#services" className="hover:opacity-80">Services</a>
+          <a href="#pricing" className="hover:opacity-80">Pricing</a>
+          <a href="#contact" className="hover:opacity-80">Contact</a>
+          <a
+            href="tel:+17153047663"
+            className="inline-flex items-center rounded-2xl border px-4 py-2 font-semibold"
+          >
+            Call: (715) 304-7663
+          </a>
+        </nav>
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden inline-flex items-center justify-center rounded-xl border px-3 py-2"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Open menu"
+        >
+          ☰
+        </button>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        className={`fixed inset-y-0 right-0 w-80 max-w-[85%] transition-transform duration-300 bg-white shadow-2xl md:hidden ${
+          open ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <div className="p-6 space-y-6">
+          <button
+            className="rounded-xl border px-3 py-2"
+            onClick={() => setOpen(false)}
+            aria-label="Close menu"
+          >
+            Close ✕
+          </button>
+          <a href="#services" className="block text-lg" onClick={() => setOpen(false)}>Services</a>
+          <a href="#pricing" className="block text-lg" onClick={() => setOpen(false)}>Pricing</a>
+          <a href="#contact" className="block text-lg" onClick={() => setOpen(false)}>Contact</a>
+          <div className="space-y-3 pt-4">
+            <a href="tel:+17153047663" className="block w-full rounded-2xl border px-4 py-3 text-center font-semibold">
+              Call (715) 304-7663
+            </a>
+
+            {/* TEXT BOTH NUMBERS — put your second number below */}
+            <div className="grid grid-cols-2 gap-3">
+              <a href="sms:+17153047663" className="rounded-2xl border px-4 py-3 text-center font-semibold">
+                Text (7663)
+              </a>
+              <a href="sms:REPLACE_WITH_SECOND_NUMBER" className="rounded-2xl border px-4 py-3 text-center font-semibold">
+                Text (2nd line)
+              </a>
             </div>
           </div>
-        </a>
-        <nav style={styles.nav}>
-          <a style={styles.navLink} href="#services">Services</a>
-          <a style={styles.navLink} href="#rental">Trailer Rental</a>
-          <a style={styles.navLink} href="#pricing">Pricing</a>
-          <a style={styles.navLink} href="#photos">Photos</a>
-          <a style={styles.navLink} href="#contact">Contact</a>
-        </nav>
-        <a
-          href={`tel:${CONFIG.phoneNickE164}`}
-          style={styles.callBtn}
-        >
-          Call Now
-        </a>
+        </div>
       </div>
     </header>
   );
@@ -98,91 +98,74 @@ function Header() {
 
 function Hero() {
   return (
-    <section
-      id="top"
-      style={{ ...styles.hero, backgroundImage: `url(${CONFIG.heroBg})` }}
-    >
-      <div style={styles.heroOverlay}>
-        <div style={styles.containerGrid2}>
-          <div>
-            <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 120 }} />
-            <h1 style={styles.h1}>
-              Fast, Friendly{" "}
-              <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
-            </h1>
-            <p style={styles.heroP}>
-              Storm cleanup, full-service junk removal, and affordable dump trailer rentals.
-              Serving {CONFIG.serviceArea}.
-            </p>
-            <div style={styles.rowGap}>
-              <a href="#rental" style={styles.primaryBtn}>Book a Trailer</a>
-              <a href="#contact" style={styles.secondaryBtn}>Get a Free Quote</a>
-            </div>
-            <div style={styles.heroMetaRow}>
-              <span>Same/Next-Day</span>
-              <span>Local Family Business</span>
-              
-            </div>
+    <section className="bg-neutral-50">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 grid gap-8 md:grid-cols-2 items-center min-h-[60svh] py-10 sm:py-16">
+        <div className="space-y-4">
+          <h1 className="text-[clamp(28px,6vw,56px)] font-extrabold leading-tight">
+            Need it gone today?
+          </h1>
+          <p className="text-[clamp(14px,3.8vw,18px)] leading-relaxed">
+            Same-day junk removal across the Chippewa Valley. Transparent pricing. We handle the heavy lifting—fast.
+          </p>
+
+          {/* Mobile-friendly CTAs */}
+          <div className="grid grid-cols-1 sm:flex gap-3 sm:gap-4">
+            <a
+              href="tel:+17153047663"
+              className="w-full sm:w-auto rounded-2xl bg-black text-white px-6 py-3 text-center font-semibold"
+            >
+              Call (715) 304-7663
+            </a>
+            <a
+              href="#pricing"
+              className="w-full sm:w-auto rounded-2xl border px-6 py-3 text-center font-semibold"
+            >
+              View Pricing
+            </a>
           </div>
 
-          {/* CTA card – sends SMS to both numbers */}
-          <div style={styles.ctaCard}>
-            <div style={styles.ctaCardHeader}>Need it gone today?</div>
-            <div style={styles.ctaCardBody}>
-              {/* Note the text “Text Us a Photo” here */}
-              <a href={`sms:${smsTargets}`} style={styles.primaryBtnFull}>
-                Text Us a Photo
-              </a>
-              <div style={styles.smallMuted}>
-                
-              </div>
-            </div>
+          {/* Optional: two-text buttons in hero */}
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <a href="sms:+17153047663" className="rounded-xl border px-4 py-2 text-center text-sm font-semibold">Text (7663)</a>
+            <a href="sms:REPLACE_WITH_SECOND_NUMBER" className="rounded-xl border px-4 py-2 text-center text-sm font-semibold">Text (2nd)</a>
           </div>
+        </div>
+
+        {/* If you had a hero image, keep it responsive. No “Recent Jobs” gallery here. */}
+        <div className="aspect-video md:aspect-[4/3] w-full rounded-2xl bg-white border grid place-items-center">
+          <span className="text-sm opacity-70 px-4 text-center">
+            (Optional hero photo or short explainer—kept responsive & lightweight)
+          </span>
         </div>
       </div>
     </section>
   );
 }
 
-function Services() {
-  return (
-    <section id="services" style={styles.section}>
-      <h2 style={styles.h2}>What We Do</h2>
-      <div style={styles.cards3}>
-        <Card title="Junk Removal">
-          Full-service cleanouts for garages, basements, estates, renovations, and more.
-          We lift, load, haul, and dispose responsibly.
-        </Card>
-        <Card title="Dump Trailer Rental">
-          Need a trailer on-site? We drop it off, you fill it, we haul it away. Perfect for DIY cleanups and remodels.
-        </Card>
-        <Card title="U-Fill, We Haul">
-          Budget-friendly option: you stage items, we load quickly and go.
-          Ask about storm cleanup specials.
-        </Card>
-      </div>
-    </section>
-  );
-}
+function ServiceGrid() {
+  const services = [
+    "Garage & basement cleanouts",
+    "Furniture & appliance haul-away",
+    "Yard waste & storm debris",
+    "Construction debris",
+    "Shed / tenant cleanouts",
+    "Dump trailer rentals",
+  ];
 
-function Rental() {
   return (
-    <section id="rental" style={styles.sectionAlt}>
-      <div style={styles.container}>
-        <div style={styles.rowBetween}>
-          <h2 style={styles.h2}>Dump Trailer Rental</h2>
-        </div>
-        <div style={styles.grid2}>
-          <Card title="Simple, Transparent Pricing">
-            <ul style={styles.ul}>
-              <li>Day rate + dump fees (priced by weight)</li>
-              <li>Includes drop-off & pick-up in local area</li>
-              <li>Typical capacity: 12–14 yards (update if different)</li>
-            </ul>
-          </Card>
-          <Card title="Reserve Your Date" accent>
-            Call, text, or email us to reserve a trailer. We’ll confirm details and delivery window.
-          </Card>
+    <section id="services" className="py-10 sm:py-16">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6">What we handle</h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {services.map((title) => (
+            <div key={title} className="rounded-2xl border p-5 sm:p-6">
+              <h3 className="font-semibold text-lg">{title}</h3>
+              <p className="text-sm mt-2 opacity-80">
+                Fast pickup. Upfront pricing. We do the lifting.
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -191,430 +174,133 @@ function Rental() {
 
 function Pricing() {
   return (
-    <section id="pricing" style={styles.section}>
-      <h2 style={styles.h2}>Typical Pricing</h2>
-      <div style={styles.cards4}>
-        <Card title="Single Item Pickups">
-          <div style={styles.price}>Min $80</div>
-          Curbside discounts available. Mattresses, couches, appliances.
-        </Card>
-        <Card title="Appliance Pickups">
-          <div style={styles.price}>$50 each</div>
-          Refrigerators, washers, dryers, etc.
-        </Card>
-        <Card title="Half Load (6–7 yds)">
-          <div style={styles.price}>$250–$350</div>
-          Great for garage cleanouts & small remodels.
-        </Card>
-        <Card title="Full Load (12–14 yds)" accent>
-          <div style={styles.price}>$400–$600</div>
-          Includes labor, hauling, and disposal (weight limits apply).
-        </Card>
-      </div>
-      <div style={styles.fineprint}>
-        *Final pricing depends on access, weight, and item types. We’ll confirm before any work starts.
+    <section id="pricing" className="py-10 sm:py-16 bg-neutral-50">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6">Simple, transparent pricing</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+          <Card
+            title="Minimum Pickup"
+            price="$XX"
+            desc="Small items or a few bags. Quick in and out."
+          />
+          <Card
+            title="Half Trailer"
+            price="$XX"
+            desc="Perfect for room cleanouts and bulky items."
+            highlight
+          />
+          <Card
+            title="Full Trailer"
+            price="$XX"
+            desc="Renovations, big cleanouts, storm debris."
+          />
+        </div>
+
+        <p className="text-sm opacity-80 mt-4">
+          Prices include labor & disposal. Additional fees may apply for mattresses, tires, TVs, paint, and hazardous items.
+        </p>
       </div>
     </section>
   );
 }
 
-function Photos() {
+function Card({ title, price, desc, highlight }) {
   return (
-    <section id="photos" style={styles.sectionAlt}>
-      <div style={styles.container}>
-        <h2 style={styles.h2}>Recent Jobs</h2>
-        {CONFIG.gallery.length === 0 ? (
-          <p>No photos available at the moment. Check back soon!</p>
-        ) : (
-          <div style={styles.grid3Img}>
-            {CONFIG.gallery.map((src, i) => (
-              <img key={i} src={src} alt={`Job ${i + 1}`} style={styles.galleryImg} />
-            ))}
-          </div>
-        )}
+    <div
+      className={`rounded-2xl border p-6 sm:p-7 ${
+        highlight ? "bg-white shadow-xl" : "bg-white"
+      }`}
+    >
+      <h3 className="font-semibold text-lg">{title}</h3>
+      <div className="text-3xl font-extrabold mt-2">{price}</div>
+      <p className="text-sm mt-2 opacity-80">{desc}</p>
+      <div className="mt-5 grid grid-cols-2 gap-3">
+        <a href="tel:+17153047663" className="rounded-xl border px-4 py-2 text-center font-semibold">
+          Call
+        </a>
+        <a href="sms:+17153047663" className="rounded-xl bg-black text-white px-4 py-2 text-center font-semibold">
+          Text
+        </a>
       </div>
-    </section>
+    </div>
   );
 }
 
-function Reviews() {
-  const reviews = [
-    "On time and super friendly!",
-    "Made storm cleanup painless.",
-    "Fair price, fast work, zero stress.",
-  ];
+function Contact() {
   return (
-    <section style={styles.section}>
-      <h2 style={styles.h2}>Neighbors Love Us</h2>
-      <div style={styles.cards3}>
-        {reviews.map((txt, i) => (
-          <Card key={i}>
-            <p>“{txt}”</p>
-          </Card>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function Contact({
-  name,
-  setName,
-  email,
-  setEmail,
-  phone,
-  setPhone,
-  message,
-  setMessage,
-  mailtoHref,
-}) {
-  return (
-    <section id="contact" style={styles.sectionAlt}>
-      <div style={styles.containerGrid2}>
-        <div>
-          <h2 style={styles.h2}>Get a Free Quote</h2>
-          <p style={styles.lead}>
-            Tell us what you’re dealing with—photos help. Same-day and next-day slots go fast.
-          </p>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              window.location.href = mailtoHref;
-            }}
-            style={styles.form}
-          >
-            <input
-              style={styles.input}
-              placeholder="Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-            <input
-              style={styles.input}
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              style={styles.input}
-              placeholder="Phone"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              required
-            />
-            <textarea
-              style={{ ...styles.input, minHeight: 120 }}
-              placeholder="What do you need gone? Address, access details, preferred dates."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-            />
-            <div style={styles.rowGap}>
-              <button
-                type="submit"
-                style={{ ...styles.primaryBtn, background: CONFIG.brand.primary }}
-              >
-                Send
-              </button>
-              {/* “Text Us” sends SMS to both numbers */}
-              <a href={`sms:${smsTargets}`} style={styles.secondaryBtn}>
-                Text Us
+    <section id="contact" className="py-10 sm:py-16">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6">Get a quick quote</h2>
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="rounded-2xl border p-5 sm:p-6">
+            <p className="opacity-90">
+              Send us a couple photos and your zip code. We’ll confirm a price and time.
+            </p>
+            <div className="grid grid-cols-2 gap-3 mt-4">
+              <a href="sms:+17153047663" className="rounded-xl border px-4 py-3 text-center font-semibold">
+                Text Photos (7663)
+              </a>
+              <a href="sms:REPLACE_WITH_SECOND_NUMBER" className="rounded-xl border px-4 py-3 text-center font-semibold">
+                Text Photos (2nd)
               </a>
             </div>
-            <div style={styles.smallMuted}>
-              Attaching photos? Use the Text Us button for the fastest quote.
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <a href="tel:+17153047663" className="rounded-xl border px-4 py-3 text-center font-semibold">Call</a>
+              <a href="mailto:hello@cousins-cleanouts.com" className="rounded-xl border px-4 py-3 text-center font-semibold">Email</a>
             </div>
-          </form>
-        </div>
-        <div style={styles.stackGap}>
-          <Card>
-            <div style={styles.stackGap}>
-              <div>
-                <strong>Nick:</strong>{" "}
-                <a href={`tel:${CONFIG.phoneNickE164}`}>{CONFIG.phoneNickDisplay}</a>
-              </div>
-              <div>
-                <strong>Shane:</strong>{" "}
-                <a href={`tel:${CONFIG.phoneShaneE164}`}>{CONFIG.phoneShaneDisplay}</a>
-              </div>
-              <div>
-                <strong>Email:</strong>{" "}
-                <a href={`mailto:${CONFIG.email}`}>{CONFIG.email}</a>
-              </div>
-              <div>
-                <strong>Area:</strong> {CONFIG.serviceArea}
-              </div>
-              <div>
-                <strong>Facebook:</strong>{" "}
-                <a href={CONFIG.facebookUrl} target="_blank" rel="noreferrer">
-                  Find us on Facebook
-                </a>
-              </div>
-            </div>
-          </Card>
+          </div>
+
+          <div className="rounded-2xl border p-5 sm:p-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Thanks! We’ll reach out ASAP.");
+              }}
+              className="grid gap-4"
+            >
+              <input className="rounded-xl border px-4 py-3" placeholder="Name" required />
+              <input className="rounded-xl border px-4 py-3" placeholder="Phone" required />
+              <input className="rounded-xl border px-4 py-3" placeholder="ZIP code" required />
+              <textarea className="rounded-xl border px-4 py-3 min-h-28" placeholder="What do you need removed?" />
+              <button className="rounded-2xl bg-black text-white px-6 py-3 font-semibold">
+                Request Quote
+              </button>
+            </form>
+            <p className="text-xs opacity-70 mt-3">
+              Submitting this form authorizes us to contact you about your request.
+            </p>
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function MobileStickyCTA() {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden pointer-events-none">
+      <div className="mx-auto max-w-screen-sm px-4 pb-[env(safe-area-inset-bottom)]">
+        <div className="grid grid-cols-2 gap-3 bg-white/90 backdrop-blur rounded-2xl border p-3 shadow-xl mb-3 pointer-events-auto">
+          <a href="tel:+17153047663" className="rounded-xl border px-3 py-3 text-center text-sm font-semibold">Call</a>
+          <a href="sms:+17153047663" className="rounded-xl bg-black text-white px-3 py-3 text-center text-sm font-semibold">Text</a>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function Footer() {
   return (
-    <footer style={styles.footer}>
-      <div style={styles.containerRow}>
-        <div>
-          <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 50 }} />
+    <footer className="py-8 border-t">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p className="text-sm opacity-80">© {new Date().getFullYear()} Cousins Cleanouts. All rights reserved.</p>
+        <div className="flex items-center gap-4 text-sm">
+          <a href="#services" className="hover:opacity-80">Services</a>
+          <a href="#pricing" className="hover:opacity-80">Pricing</a>
+          <a href="#contact" className="hover:opacity-80">Contact</a>
         </div>
-        <div>
-          <div>Serving {CONFIG.serviceArea}</div>
-          <div>Licensed & Insured</div>
-        </div>
-        <div>
-          <a href={`tel:${CONFIG.phoneNickE164}`} style={styles.secondaryBtn}>Call</a>{" "}
-          <a href="#rental" style={styles.primaryBtn}>Book</a>
-        </div>
-      </div>
-      <div style={styles.copy}>
-        © {new Date().getFullYear()} {CONFIG.businessName}. All rights reserved.
       </div>
     </footer>
   );
 }
-
-function Card({ title, accent = false, children }) {
-  return (
-    <div
-      style={{
-        ...styles.card,
-        border: accent
-          ? `2px solid ${CONFIG.brand.primary}`
-          : "1px solid #e5e7eb",
-      }}
-    >
-      {title ? <div style={styles.cardTitle}>{title}</div> : null}
-      <div>{children}</div>
-    </div>
-  );
-}
-
-function SiteStyles() {
-  return (
-    <style>{`
-      :root { --brand: ${CONFIG.brand.primary}; }
-      *{box-sizing:border-box}
-      html,body,#root{height:100%}
-      body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#111827;background:#fafafa}
-      a{color:#111827}
-      a:hover{text-decoration:underline}
-      button{cursor:pointer}
-      @media (max-width: 860px){
-        nav{display:none}
-      }
-    `}</style>
-  );
-}
-
-/* Styles replicating original layout */
-const styles = {
-  page: { minHeight: "100%", display: "flex", flexDirection: "column" },
-  container: { maxWidth: 1120, margin: "0 auto", padding: "0 16px" },
-  containerRow: {
-    maxWidth: 1120,
-    margin: "0 auto",
-    padding: "8px 16px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 16,
-  },
-  containerGrid2: {
-    maxWidth: 1120,
-    margin: "0 auto",
-    padding: "0 16px",
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 24,
-  },
-  section: { maxWidth: 1120, margin: "0 auto", padding: "64px 16px" },
-  sectionAlt: {
-    background: "#fff",
-    borderTop: "1px solid #eee",
-    borderBottom: "1px solid #eee",
-    padding: "64px 0",
-  },
-  headerWrapper: {
-    position: "sticky",
-    top: 0,
-    zIndex: 40,
-    backdropFilter: "blur(6px)",
-    background: "rgba(255,255,255,.86)",
-    borderBottom: "1px solid #eee",
-  },
-  brandLink: {
-    display: "flex",
-    alignItems: "center",
-    gap: 12,
-    textDecoration: "none",
-    color: "#111827",
-  },
-  brandName: { fontWeight: 800, fontSize: 18 },
-  brandTag: { fontSize: 12, color: "#6b7280" },
-  nav: { display: "flex", alignItems: "center", gap: 8 },
-  navLink: {
-    padding: "8px 12px",
-    borderRadius: 8,
-    textDecoration: "none",
-    color: "#111827",
-  },
-  callBtn: {
-    marginLeft: 8,
-    padding: "10px 16px",
-    borderRadius: 12,
-    background: CONFIG.brand.primary,
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: 600,
-  },
-  hero: {
-    position: "relative",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-  },
-  heroOverlay: { background: "rgba(0,0,0,.6)", padding: "80px 0" },
-  h1: {
-    color: "#fff",
-    fontWeight: 900,
-    fontSize: 44,
-    lineHeight: 1.1,
-    margin: 0,
-  },
-  heroP: {
-    color: "#e5e7eb",
-    fontSize: 18,
-    marginTop: 12,
-  },
-  rowGap: {
-    display: "flex",
-    gap: 12,
-    marginTop: 20,
-    flexWrap: "wrap",
-  },
-  primaryBtn: {
-    display: "inline-block",
-    padding: "12px 18px",
-    borderRadius: 12,
-    background: CONFIG.brand.primary,
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: 700,
-  },
-  secondaryBtn: {
-    display: "inline-block",
-    padding: "12px 18px",
-    borderRadius: 12,
-    background: "#fff",
-    color: "#111827",
-    textDecoration: "none",
-    fontWeight: 700,
-    border: "1px solid #e5e7eb",
-  },
-  primaryBtnFull: {
-    display: "block",
-    textAlign: "center",
-    padding: "12px 18px",
-    borderRadius: 12,
-    background: CONFIG.brand.primary,
-    color: "#fff",
-    textDecoration: "none",
-    fontWeight: 700,
-  },
-  heroMetaRow: {
-    display: "flex",
-    gap: 16,
-    marginTop: 12,
-    color: "#d1d5db",
-    fontSize: 14,
-    flexWrap: "wrap",
-  },
-  ctaCard: {
-    background: "#fff",
-    borderRadius: 16,
-    overflow: "hidden",
-    boxShadow: "0 10px 30px rgba(0,0,0,.18)",
-  },
-  ctaCardHeader: {
-    background: "#0b0f19",
-    color: "#fff",
-    padding: 16,
-    fontWeight: 700,
-    fontSize: 18,
-  },
-  ctaCardBody: { padding: 20, fontSize: 14 },
-  cards3: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
-    gap: 16,
-  },
-  cards4: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr 1fr",
-    gap: 16,
-  },
-  grid2: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: 16,
-  },
-  grid3Img: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
-    gap: 12,
-  },
-  galleryImg: {
-    width: "100%",
-    height: 260,
-    objectFit: "cover",
-    borderRadius: 16,
-    boxShadow: "0 6px 16px rgba(0,0,0,.12)",
-  },
-  card: { background: "#fff", borderRadius: 16, padding: 20 },
-  cardTitle: { fontWeight: 700, marginBottom: 8, fontSize: 18 },
-  price: { fontSize: 32, fontWeight: 900, margin: "6px 0 10px" },
-  fineprint: { fontSize: 12, color: "#6b7280", marginTop: 8 },
-  lead: { color: "#374151", marginBottom: 16 },
-  form: { display: "grid", gap: 10, maxWidth: 640 },
-  input: {
-    width: "100%",
-    padding: "12px 14px",
-    borderRadius: 10,
-    border: "1px solid #e5e7eb",
-    fontSize: 16,
-  },
-  stackGap: { display: "grid", gap: 12 },
-  bold: { fontWeight: 700 },
-  smallMuted: { fontSize: 12, color: "#6b7280", marginTop: 6 },
-  rowBetween: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-    marginBottom: 12,
-  },
-  footer: {
-    background: "#0b0f19",
-    color: "#e5e7eb",
-    marginTop: 40,
-    paddingTop: 24,
-  },
-  copy: {
-    borderTop: "1px solid rgba(255,255,255,.12)",
-    marginTop: 16,
-    padding: "10px 0",
-    textAlign: "center",
-    fontSize: 12,
-    color: "#9ca3af",
-  },
-};
