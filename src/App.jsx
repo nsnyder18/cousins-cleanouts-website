@@ -134,7 +134,7 @@ function Hero() {
                 Text Us a Photo
               </a>
               <div style={styles.smallMuted}>
-                Or call <a href={`tel:${CONFIG.phoneNickE164}`}>{CONFIG.phoneNickDisplay}</a>
+                
               </div>
             </div>
           </div>
