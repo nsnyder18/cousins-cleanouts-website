@@ -8,12 +8,12 @@ const CONFIG = {
   phoneShaneE164: "+17159449389",
   email: "Sales@cousinscleanouts.com",
   serviceArea: "Chippewa / Eau Claire Area, WI",
-  facebookUrl: "https://www.facebook.com/profile.php?id=61562333859276",
+  facebookUrl: "https://www.facebook.com/profile.php?id=61578240786797",
   heroBg:
     "https://images.unsplash.com/photo-1565610314838-9f0efc9e6e4a?q=80&w=1600&auto=format&fit=crop",
-  logo: "/logo.png", // logo file in public folder
+  logo: "/logo.png",
   brand: {
-    primary: "#F97316", // adjust to match your logo's orange if needed
+    primary: "#C25A2B",
     dark: "#0B0F19",
   },
 };
@@ -65,6 +65,12 @@ function Header() {
             <div style={styles.brandTag}>Junk Removal • Dump Trailer Rental</div>
           </div>
         </a>
+        <a
+          href={`tel:${CONFIG.phoneNickE164}`}
+          style={{ ...styles.primaryBtn, background: CONFIG.brand.primary }}
+        >
+          Call Now
+        </a>
       </div>
     </header>
   );
@@ -81,10 +87,12 @@ function Hero() {
           <div>
             <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 120 }} />
             <h1 style={styles.h1}>
-              Fast, Friendly <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
+              Fast, Friendly{" "}
+              <span style={{ color: CONFIG.brand.primary }}>Cleanouts</span>
             </h1>
             <p style={styles.heroP}>
-              Storm cleanup, full-service junk removal, and affordable dump trailer rentals. Serving {CONFIG.serviceArea}.
+              Storm cleanup, full-service junk removal, and affordable dump trailer
+              rentals. Serving {CONFIG.serviceArea}.
             </p>
           </div>
         </div>
@@ -111,7 +119,17 @@ function Pricing() {
   );
 }
 
-function Contact({ name, setName, email, setEmail, phone, setPhone, message, setMessage, mailtoHref }) {
+function Contact({
+  name,
+  setName,
+  email,
+  setEmail,
+  phone,
+  setPhone,
+  message,
+  setMessage,
+  mailtoHref,
+}) {
   return (
     <section id="contact" style={styles.sectionAlt}>
       <div style={styles.containerGrid2}>
@@ -124,16 +142,50 @@ function Contact({ name, setName, email, setEmail, phone, setPhone, message, set
             }}
             style={styles.form}
           >
-            <input style={styles.input} placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-            <input style={styles.input} type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <input style={styles.input} placeholder="Phone" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-            <textarea style={{ ...styles.input, minHeight: 120 }} placeholder="Details" value={message} onChange={(e) => setMessage(e.target.value)} required />
-            <button type="submit" style={styles.primaryBtn}>Send</button>
+            <input
+              style={styles.input}
+              placeholder="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+            <input
+              style={styles.input}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              style={styles.input}
+              placeholder="Phone"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+            <textarea
+              style={{ ...styles.input, minHeight: 120 }}
+              placeholder="Details"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+            />
+            <button
+              type="submit"
+              style={{ ...styles.primaryBtn, background: CONFIG.brand.primary }}
+            >
+              Send
+            </button>
           </form>
         </div>
         <div>
-          <strong>Nick:</strong> <a href={`tel:${CONFIG.phoneNickE164}`}>{CONFIG.phoneNickDisplay}</a><br />
-          <strong>Shane:</strong> <a href={`tel:${CONFIG.phoneShaneE164}`}>{CONFIG.phoneShaneDisplay}</a><br />
+          <strong>Nick:</strong>{" "}
+          <a href={`tel:${CONFIG.phoneNickE164}`}>{CONFIG.phoneNickDisplay}</a>
+          <br />
+          <strong>Shane:</strong>{" "}
+          <a href={`tel:${CONFIG.phoneShaneE164}`}>{CONFIG.phoneShaneDisplay}</a>
+          <br />
           <strong>Email:</strong> <a href={`mailto:${CONFIG.email}`}>{CONFIG.email}</a>
         </div>
       </div>
@@ -147,6 +199,14 @@ function Footer() {
       <div style={styles.containerRow}>
         <img src={CONFIG.logo} alt="Cousins Cleanouts logo" style={{ height: 50 }} />
         <div>Serving {CONFIG.serviceArea}</div>
+        <a
+          href={CONFIG.facebookUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#fff" }}
+        >
+          Facebook
+        </a>
       </div>
     </footer>
   );
@@ -171,10 +231,21 @@ function SiteStyles() {
 
 const styles = {
   page: { fontFamily: "Arial, sans-serif" },
-  containerRow: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 16px" },
+  containerRow: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "8px 16px",
+  },
   containerGrid2: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 },
   headerWrapper: { background: "#fff", borderBottom: "1px solid #eee" },
-  brandLink: { display: "flex", alignItems: "center", gap: 12, textDecoration: "none", color: "#000" },
+  brandLink: {
+    display: "flex",
+    alignItems: "center",
+    gap: 12,
+    textDecoration: "none",
+    color: "#000",
+  },
   brandName: { fontWeight: 800, fontSize: 18 },
   brandTag: { fontSize: 12, color: "#666" },
   hero: { backgroundSize: "cover", backgroundPosition: "center" },
@@ -183,13 +254,31 @@ const styles = {
   heroP: { color: "#eee", fontSize: 18 },
   section: { padding: "40px 16px" },
   sectionAlt: { background: "#fafafa", padding: "40px 16px" },
-  cards3: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16 },
+  cards3: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 },
   price: { fontSize: 28, fontWeight: "bold", margin: "10px 0" },
   form: { display: "grid", gap: 10 },
   input: { padding: "10px", borderRadius: 6, border: "1px solid #ccc" },
-  primaryBtn: { background: CONFIG.brand.primary, color: "#fff", padding: "12px 18px", border: "none", borderRadius: 8 },
-  card: { background: "#fff", borderRadius: 8, padding: 16, boxShadow: "0 1px 4px rgba(0,0,0,0.1)" },
+  primaryBtn: {
+    background: CONFIG.brand.primary,
+    color: "#fff",
+    padding: "12px 18px",
+    border: "none",
+    borderRadius: 8,
+    textDecoration: "none",
+  },
+  card: {
+    background: "#fff",
+    borderRadius: 8,
+    padding: 16,
+    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+  },
   cardTitle: { fontWeight: "bold", marginBottom: 8 },
-  footer: { background: "#0b0f19", color: "#fff", padding: "20px 16px" },
+  footer: {
+    background: "#0b0f19",
+    color: "#fff",
+    padding: "20px 16px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 };
-
