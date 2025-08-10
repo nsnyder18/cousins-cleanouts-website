@@ -268,4 +268,17 @@ const styles = {
   },
   card: {
     background: "#fff",
-    borderRadius:
+    borderRadius: 8,
+    padding: 16,
+    boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+  },
+  cardTitle: { fontWeight: "bold", marginBottom: 8 },
+  footer: {
+    background: "#0b0f19",
+    color: "#fff",
+    padding: "20px 16px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+};
